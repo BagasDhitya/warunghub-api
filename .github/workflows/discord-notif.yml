@@ -1,4 +1,4 @@
-name: "Discord Push Notification"
+name: "Discord & Email Push Notification"
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  notify-discord:
+  notify:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,3 +22,28 @@ jobs:
             -X POST \
             -d "{\"content\": $MESSAGE}" \
             "${{ secrets.DISCORD_WEBHOOK_URL }}"
+
+      # =============================
+      #       📧 EMAIL NOTIFIER
+      # =============================
+      - name: 📧 Send Email Notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.GMAIL_USER }}
+          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          subject: "🚀 New Push to ${GITHUB_REPOSITORY}"
+          to: "bagas.purwadhika@gmail.com"
+          from: "GitHub Notification Bot <${{ secrets.GMAIL_USER }}>"
+          body: |
+            Hallo Bagas 👋
+
+            Ada push terbaru pada repositorymu!
+
+            🔥 Repo     : ${GITHUB_REPOSITORY}
+            🔥 Branch   : ${GITHUB_REF_NAME}
+            👤 Author   : $AUTHOR
+            📝 Commits  : $COMMITS
+
+            -- End of Message --
