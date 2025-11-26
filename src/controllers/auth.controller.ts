@@ -4,17 +4,17 @@ import { authService } from "../services/auth.service";
 export const authController = {
   async register(req: Request, res: Response) {
     try {
-      const { email, password } = req.body;
+      const { email, password, role } = req.body;
 
       // validasi email dan pwd
-      if (!email || !password) {
+      if (!email || !password || !role) {
         return res.status(400).send({
           success: false,
-          message: "Missing email or password",
+          message: "Missing email or password or role",
         });
       }
 
-      await authService.register(email, password);
+      await authService.register(email, password, role);
 
       res.status(201).send({
         success: true,

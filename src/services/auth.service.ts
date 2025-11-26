@@ -1,9 +1,10 @@
 import { prisma } from "../prisma/client";
 import bcrypt from "bcrypt";
 import { generateToken } from "../helpers/jwt";
+import { Role } from "@prisma/client";
 
 export const authService = {
-  async register(email: string, password: string) {
+  async register(email: string, password: string, role: string) {
     const found = await prisma.user.findUnique({
       where: { email },
     });
@@ -20,7 +21,7 @@ export const authService = {
       data: {
         email,
         password: hashedPassword,
-        role: "VISITOR",
+        role: role as Role,
       },
     });
 
