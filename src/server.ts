@@ -18,6 +18,8 @@ app.get("/health", (req, res) => {
   });
 });
 
+console.log("test github actions");
+
 setupSwagger(app);
 
 app.use("/api/auth", AuthRouter);
