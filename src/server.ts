@@ -18,7 +18,8 @@ app.get("/health", (req, res) => {
   });
 });
 
-console.log("test github actions");
+console.log("test github actions from discord");
+console.log("test github actions from gmail");
 
 setupSwagger(app);
 
