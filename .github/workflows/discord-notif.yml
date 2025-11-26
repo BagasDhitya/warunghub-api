@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "**"
+  workflow_dispatch:
 
 jobs:
   notify-discord:
@@ -13,14 +14,11 @@ jobs:
       - name: 📩 Send Notification to Discord
         run: |
           AUTHOR=$(jq -r '.head_commit.author.name' "$GITHUB_EVENT_PATH")
+          COMMITS=$(jq '.commits | length' "$GITHUB_EVENT_PATH")
 
-          MESSAGE="🚀 New Push Detected!
-          👤 Author: $AUTHOR
-          📂 Repository: ${GITHUB_REPOSITORY}
-          🔀 Branch: ${GITHUB_REF_NAME}
-          📌 Commit Count: $(jq '.commits | length' "$GITHUB_EVENT_PATH")"
+          MESSAGE=$(echo -e "🚀 New Push Detected!\n👤 Author: $AUTHOR\n📂 Repo: ${GITHUB_REPOSITORY}\n🔀 Branch: ${GITHUB_REF_NAME}\n📌 Commit Count: $COMMITS" | jq -Rs .)
 
           curl -H "Content-Type: application/json" \
             -X POST \
-            -d "{\"content\": \"$MESSAGE\"}" \
+            -d "{\"content\": $MESSAGE}" \
             "${{ secrets.DISCORD_WEBHOOK_URL }}"

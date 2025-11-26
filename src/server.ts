@@ -12,7 +12,7 @@ app.use(express.json());
 app.get("/health", (req, res) => {
   res.status(200).json({
     status: "OK",
-    message: "API is running ok",
+    message: "API is running smoothly 🚀",
     uptime: process.uptime(), // lama server hidup
     timestamp: new Date().toISOString(), // waktu response
   });
