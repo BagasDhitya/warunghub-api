@@ -14,33 +14,33 @@ datasource db {
 }
 
 model User {
-  id         Int       @id @default(autoincrement())
-  email      String    @unique
-  password   String
-  role       Role      @default(VISITOR)
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
+  role     Role   @default(VISITOR)
 
   created_at DateTime  @default(now())
   updated_at DateTime  @updatedAt
   deleted_at DateTime?
 
-  products   Product[]
+  products Product[]
 }
 
 model Product {
-  id            Int       @id @default(autoincrement())
-  title         String
-  image         String?
-  description   String?
-  price         Float
-  stock         Int       @default(0)
+  id          Int     @id @default(autoincrement())
+  title       String
+  image       String?
+  description String?
+  price       Float
+  stock       Int     @default(0)
 
-  created_at    DateTime  @default(now())
-  updated_at    DateTime  @updatedAt
-  deleted_at    DateTime?
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
 
-  userId        Int?
+  userId Int?
 
-  user          User?     @relation(fields: [userId], references: [id])
+  user User? @relation(fields: [userId], references: [id])
 }
 
 enum Role {
