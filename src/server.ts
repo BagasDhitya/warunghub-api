@@ -8,6 +8,16 @@ const PORT = 8000;
 
 app.use(express.json());
 
+// 🔥 Health Check Endpoint
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "OK",
+    message: "API is running smoothly 🚀",
+    uptime: process.uptime(), // lama server hidup
+    timestamp: new Date().toISOString(), // waktu response
+  });
+});
+
 setupSwagger(app);
 
 app.use("/api/auth", AuthRouter);
